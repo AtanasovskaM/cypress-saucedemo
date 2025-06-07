@@ -1,0 +1,23 @@
+{
+  "name": "cypress-saucedemo",
+  "version": "1.0.0",
+  "description": "Cypress ui tests for saucedemo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:open": "cypress open --e2e --browser chrome",
+    "cy:run": "cypress run --e2e --browser chrome"
+  },
+  "author": "Magdalena Tomoska",
+  "license": "ISC",
+  "engines": {
+    "node": ">= 20",
+    "npm": ">= 20"
+  },
+  "devDependencies": {
+    "cypress": "^14.4.1",
+    "cypress-dotenv": "^3.0.1",
+    "dotenv": "^16.5.0",
+    "prettier": "3.5.3"
+  }
+}
