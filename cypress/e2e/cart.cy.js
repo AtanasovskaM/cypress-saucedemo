@@ -41,10 +41,29 @@ describe('Login and logout functionality', () => {
       'have.text',
       'Sauce Labs Bolt T-Shirt'
     )
-    cy.get('[data-test = "remove-sauce-labs-bolt-t-shirt"]')
-      .should('be.visible')
-      .click()
+    cy.get('[data-test = "remove-sauce-labs-bolt-t-shirt"]').click()
     cy.get('[data-test = "cart-item"]').should('not.exist')
+  })
+
+  it('Should remove product from cart and verify that badge number updates correctly', () => {
+    cy.get('[data-test = "add-to-cart-sauce-labs-bolt-t-shirt"]').click()
+    cy.get('#shopping_cart_container').click()
+    cy.url().should('contain', '/cart.html')
+    cy.get('[data-test="inventory-item-name"]').should(
+      'have.text',
+      'Sauce Labs Bolt T-Shirt'
+    )
+    cy.get('[data-test = "remove-sauce-labs-bolt-t-shirt"]').click()
+    cy.get('[data-test="shopping-cart-badge"]').should('not.exist')
+  })
+
+  it('Should remove product from cart from product list and verify that badge number updates correctly', () => {
+    cy.get('[data-test = "add-to-cart-sauce-labs-bolt-t-shirt"]').click()
+    cy.get('[data-test="shopping-cart-badge"]')
+      .should('be.visible')
+      .and('have.text', '1')
+    cy.get('[data-test = "remove-sauce-labs-bolt-t-shirt"]').click()
+    cy.get('[data-test="shopping-cart-badge"]').should('not.exist')
   })
 
   it('Should add product to cart, checkout successfully and verify confirm page', () => {
@@ -92,6 +111,25 @@ describe('Login and logout functionality', () => {
       .and('contain.text', 'Back Home')
       .click()
     cy.url().should('contain', '/inventory.html')
+  })
+
+  it('Should add product to cart, checkout successfully and verify confirm page', () => {
+    cy.get('[data-test = "add-to-cart-sauce-labs-bolt-t-shirt"]').click()
+    cy.get('#shopping_cart_container').click()
+    cy.url().should('contain', '/cart.html')
+    cy.get('[data-test="inventory-item-name"]').should(
+      'have.text',
+      'Sauce Labs Bolt T-Shirt'
+    )
+    cy.get('[data-test = "checkout"]').should('be.visible').click()
+    cy.url().should('contain', '/checkout-step-one.html')
+    cy.get('[data-test = "firstName"]').should('be.visible')
+    cy.get('[data-test = "lastName"]').should('be.visible')
+    cy.get('[data-test = "postalCode"]').should('be.visible')
+    cy.get('[data-test = "continue"]').should('be.visible').click()
+    cy.get('[data-test = "error"]')
+      .should('be.visible')
+      .and('contain.text', 'First Name is required')
   })
 
   it('Should add product to cart, and on "Cancel" on checkout page to return to cart', () => {
