@@ -1,6 +1,6 @@
 import LoginPage from '../support/pages/loginPage'
 
-describe('Login with different users', () => {
+describe('Sort the products', () => {
   beforeEach(() => {
     cy.visit('/')
     cy.get('.login_logo').should('have.text', 'Swag Labs')
