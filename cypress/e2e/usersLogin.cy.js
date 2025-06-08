@@ -1,25 +1,23 @@
 import LoginPage from '../support/pages/loginPage'
 
-describe('Saucedemo login users', () => {
+describe('Login with different users', () => {
   beforeEach(() => {
     cy.visit('/')
+    cy.get('.login_logo').should('have.text', 'Swag Labs')
+    LoginPage.verifyTheLoginForm()
   })
 
   it('Should login with standard user', () => {
-    LoginPage.enterLoginCredentials(
-      Cypress.env('standardUser'),
-      Cypress.env('loginPassword')
-    )
+    LoginPage.enterUsername(Cypress.env('standardUser'))
+    LoginPage.enterPassword(Cypress.env('loginPassword'))
     LoginPage.clickLogin()
     cy.url().should('contain', '/inventory.html')
     cy.get('#inventory_container').should('be.visible')
   })
 
-  it.only('Should login with standard user and add item to cart successfully', () => {
-    LoginPage.enterLoginCredentials(
-      Cypress.env('standardUser'),
-      Cypress.env('loginPassword')
-    )
+  it('Should login with standard user and add item to cart successfully', () => {
+    LoginPage.enterUsername(Cypress.env('standardUser'))
+    LoginPage.enterPassword(Cypress.env('loginPassword'))
     LoginPage.clickLogin()
     cy.get('#inventory_container').should('be.visible')
     cy.get('[data-test = "add-to-cart-sauce-labs-fleece-jacket"]').click()
@@ -38,10 +36,8 @@ describe('Saucedemo login users', () => {
   })
 
   it('Should login with problem user successfully and check the src onesie image', () => {
-    LoginPage.enterLoginCredentials(
-      Cypress.env('problemUser'),
-      Cypress.env('loginPassword')
-    )
+    LoginPage.enterUsername(Cypress.env('problemUser'))
+    LoginPage.enterPassword(Cypress.env('loginPassword'))
     LoginPage.clickLogin()
     cy.get('#inventory_container').should('be.visible')
     cy.get('[data-test = "inventory-item-sauce-labs-onesie-img"]')
@@ -50,10 +46,8 @@ describe('Saucedemo login users', () => {
   })
 
   it('Login with locked error should fail and display error message', () => {
-    LoginPage.enterLoginCredentials(
-      Cypress.env('lockedUser'),
-      Cypress.env('loginPassword')
-    )
+    LoginPage.enterUsername(Cypress.env('lockedUser'))
+    LoginPage.enterPassword(Cypress.env('loginPassword'))
     LoginPage.clickLogin()
     cy.get('[data-test = "error"]')
       .should('be.visible')
@@ -61,10 +55,8 @@ describe('Saucedemo login users', () => {
   })
 
   it('Should login with error user and add product to cart', () => {
-    LoginPage.enterLoginCredentials(
-      Cypress.env('errorUser'),
-      Cypress.env('loginPassword')
-    )
+    LoginPage.enterUsername(Cypress.env('errorUser'))
+    LoginPage.enterPassword(Cypress.env('loginPassword'))
     LoginPage.clickLogin()
     cy.get('#inventory_container').should('be.visible')
     cy.get('[data-test = "add-to-cart-sauce-labs-fleece-jacket"]').click()
