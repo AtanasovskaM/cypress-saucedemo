@@ -16,35 +16,63 @@ describe('Sort the products', () => {
     cy.get('[data-test = "product-sort-container"]')
       .should('be.visible')
       .select('za')
-    cy.get('[data-test = "inventory-item-name"]')
-      .first()
-      .should('have.text', 'Test.allTheThings() T-Shirt (Red)')
+    const productList = []
+    cy.get('[data-test="inventory-item-name"]')
+      .each(($product) => {
+        productList.push($product.text())
+      })
+      .then(() => {
+        const sortedZA = [...productList].sort().reverse()
+        expect(productList).to.deep.equal(sortedZA)
+      })
   })
 
   it('Should sort products by selected filter "Name (A-Z)"', () => {
+    const productList = []
     cy.get('[data-test = "product-sort-container"]')
       .should('be.visible')
       .select('az')
-    cy.get('[data-test = "inventory-item-name"]')
-      .first()
-      .should('have.text', 'Sauce Labs Backpack')
+    cy.get('[data-test="inventory-item-name"]')
+      .each(($product) => {
+        productList.push($product.text())
+      })
+      .then(() => {
+        const sortedAZ = [...productList].sort()
+        expect(productList).to.deep.equal(sortedAZ)
+      })
   })
 
   it('Should sort products by selected filter "Price (low to high)', () => {
+    const productList = []
     cy.get('[data-test = "product-sort-container"]')
       .should('be.visible')
       .select('lohi')
-    cy.get('[data-test = "inventory-item-name"]')
-      .first()
-      .should('have.text', 'Sauce Labs Onesie')
+    cy.get('[data-test="inventory-item-name"]')
+      .each(($product) => {
+        productList.push($product.text())
+      })
+      .then(() => {
+        const sortedLOHI = [...productList].sort(function (a, b) {
+          return a - b
+        })
+        expect(productList).to.deep.equal(sortedLOHI)
+      })
   })
 
   it('Should sort products by selected filter "Price (high to low)', () => {
+    const productList = []
     cy.get('[data-test = "product-sort-container"]')
       .should('be.visible')
       .select('hilo')
-    cy.get('[data-test = "inventory-item-name"]')
-      .first()
-      .should('have.text', 'Sauce Labs Fleece Jacket')
+    cy.get('[data-test="inventory-item-name"]')
+      .each(($product) => {
+        productList.push($product.text())
+      })
+      .then(() => {
+        const sortedHILO = [...productList].sort(function (a, b) {
+          return b - a
+        })
+        expect(productList).to.deep.equal(sortedHILO)
+      })
   })
 })
