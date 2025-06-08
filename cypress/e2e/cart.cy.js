@@ -78,7 +78,10 @@ describe('Login and logout functionality', () => {
       'contain.text',
       'Price Total'
     )
-    cy.get('[data-test="finish"]').should('be.visible').and('have.text', 'Finish').click()
+    cy.get('[data-test="finish"]')
+      .should('be.visible')
+      .and('have.text', 'Finish')
+      .click()
     cy.url().should('contain', '/checkout-complete.html')
     cy.get('[data-test="complete-header"]').should(
       'contain.text',
@@ -91,13 +94,88 @@ describe('Login and logout functionality', () => {
     cy.url().should('contain', '/inventory.html')
   })
 
-  it('Should add product to cart, and on "Cancel" on checkout page to return to cart', () => {})
+  it('Should add product to cart, and on "Cancel" on checkout page to return to cart', () => {
+    cy.get('[data-test = "add-to-cart-sauce-labs-bolt-t-shirt"]').click()
+    cy.get('#shopping_cart_container').click()
+    cy.url().should('contain', '/cart.html')
+    cy.get('[data-test="inventory-item-name"]').should(
+      'have.text',
+      'Sauce Labs Bolt T-Shirt'
+    )
+    cy.get('[data-test = "checkout"]').should('be.visible').click()
+    cy.url().should('contain', '/checkout-step-one.html')
+    cy.get('[data-test = "firstName"]').should('be.visible')
+    cy.get('[data-test = "lastName"]').should('be.visible')
+    cy.get('[data-test = "postalCode"]').should('be.visible')
+    cy.get('[data-test = "continue"]').should('be.visible')
+    cy.get('[data-test = "cancel"]').should('be.visible').click()
+    cy.url().should('contain', '/cart.html')
+    cy.get('[data-test="inventory-item-name"]').should(
+      'have.text',
+      'Sauce Labs Bolt T-Shirt'
+    )
+  })
 
-  it('Should add multiple products to cart and verify that badge number updates correctly', () => {})
+  it('Should add multiple products to cart and verify that badge number updates correctly', () => {
+    cy.get('[data-test = "add-to-cart-sauce-labs-bolt-t-shirt"]').click()
+    cy.get('[data-test = "add-to-cart-sauce-labs-backpack"]').click()
+    cy.get('[data-test="shopping-cart-badge"]')
+      .should('be.visible')
+      .and('have.text', '2')
+    cy.get('[data-test = "add-to-cart-sauce-labs-onesie"]').click()
+    cy.get('[data-test="shopping-cart-badge"]')
+      .should('be.visible')
+      .and('have.text', '3')
+  })
 
-  it('Should click and open products details page', () => {})
+  it('Should click on product and open products details page', () => {
+    cy.get('[data-test = "item-4-title-link"]').click()
+    cy.url().should('contain', '/inventory-item.html')
+    cy.get('[data-test="inventory-item-name"]')
+      .should('be.visible')
+      .and('contain.text', 'Sauce Labs Backpack')
+    cy.get('[data-test="inventory-item-desc"]')
+      .should('be.visible')
+      .and(
+        'contain.text',
+        'streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protectio'
+      )
+    cy.get('[data-test="inventory-item-price"]')
+      .should('be.visible')
+      .and('contain.text', '29')
+    cy.get('[data-test="add-to-cart"]')
+      .should('be.visible')
+      .and('contain.text', 'Add to cart')
+    cy.get('[data-test="item-sauce-labs-backpack-img"]')
+      .should('have.attr', 'src')
+      .and('include', 'sauce-backpack-1200x1500')
+  })
 
-  it('Should navigate back to products page on "Back to products" from product details page', () => {})
+  it('Should navigate back to products page on "Back to products" from product details page', () => {
+    cy.get('[data-test = "item-4-title-link"]').click()
+    cy.url().should('contain', '/inventory-item.html')
+    cy.get('[data-test="inventory-item-name"]')
+      .should('be.visible')
+      .and('contain.text', 'Sauce Labs Backpack')
+    cy.get('[data-test="back-to-products"]')
+      .should('be.visible')
+      .and('contain.text', 'Back')
+      .click()
+    cy.url().should('contain', '/inventory.html')
+  })
 
-  it('Should navigate back to products page on "Continue Shopping"', () => {})
+  it('Should navigate back to products page on "Continue Shopping"', () => {
+    cy.get('[data-test = "add-to-cart-sauce-labs-bolt-t-shirt"]').click()
+    cy.get('#shopping_cart_container').click()
+    cy.url().should('contain', '/cart.html')
+    cy.get('[data-test="inventory-item-name"]').should(
+      'have.text',
+      'Sauce Labs Bolt T-Shirt'
+    )
+    cy.get('[data-test = "continue-shopping"]')
+      .should('be.visible')
+      .and('have.text', 'Continue Shopping')
+      .click()
+    cy.url().should('contain', '/inventory.html')
+  })
 })
