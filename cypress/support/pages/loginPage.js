@@ -5,8 +5,17 @@ class LoginPage {
     loginButton: () => cy.get('[data-test = "login-button"]')
   }
 
-  enterLoginCredentials(username, password) {
+  verifyTheLoginForm() {
+    this.elements.usernameInput().should('be.visible')
+    this.elements.passwordInput().should('be.visible')
+    this.elements.loginButton().should('be.visible')
+  }
+
+  enterUsername(username) {
     this.elements.usernameInput().type(username)
+  }
+
+  enterPassword(password) {
     this.elements.passwordInput().type(password)
   }
 

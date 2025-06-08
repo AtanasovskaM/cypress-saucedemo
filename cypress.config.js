@@ -12,7 +12,9 @@ module.exports = defineConfig({
       problemUser: process.env.PROBLEM_USER,
       lockedUser: process.env.LOCKED_USER,
       errorUser: process.env.ERROR_USER,
-      loginPassword: process.env.PASSWORD
+      loginPassword: process.env.PASSWORD,
+      invalidUser: process.env.INVALID_USER,
+      invalidPassword: process.env.INVALID_PASSWORD
     }
   }
 })
